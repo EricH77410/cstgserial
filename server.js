@@ -28,6 +28,17 @@ app.get('/', function (req, res){
     res.send('no no no')
 })
 
+app.get('/customer/all', function (req, res){
+    customerModel.find({}, function (err, custs){
+        if(err){
+            console.log(err);
+            res.send('KO');
+        } else {
+            res.send(custs);
+        }
+    })
+})
+
 app.get('/customer/:id', function (req, res){
     var id = req.params.id;
     customerModel.find({rowId:id}, function(err,cust){
@@ -38,18 +49,6 @@ app.get('/customer/:id', function (req, res){
             res.send(cust);
         }
     })    
-})
-
-app.get('/all', function (req, res){
-    customerModel.find(null, function (err, custs){
-        if(err){
-            console.log(err);
-            res.send('KO');
-        } else {
-            //res.header('Access-Control-Allow-Origin','*');
-            res.send(custs);
-        }
-    })
 })
 
 app.post('/add', function (req, res){
