@@ -15,7 +15,7 @@ var promise = mongoose.connect('mongodb://cstg:cstg@ds031975.mlab.com:31975/rico
 
 // definition du schema de données
 var customerSchema = new mongoose.Schema({
-    rowId: String,
+    sid: String,
     serial:String,
     contract: String,
     fin:String
@@ -27,6 +27,11 @@ var customerModel = mongoose.model('customer',customerSchema);
 app.get('/', function (req, res){
     res.send('no no no')
 })
+
+app.get('/date', function(req, res){
+    var date = new Date();
+    res.send(date)
+});
 
 app.get('/customer/all', function (req, res){
     customerModel.find({}, function (err, custs){
@@ -41,7 +46,7 @@ app.get('/customer/all', function (req, res){
 
 app.get('/customer/:id', function (req, res){
     var id = req.params.id;
-    customerModel.find({rowId:id}, function(err,cust){
+    customerModel.find({sid:id}, function(err,cust){
         if (err){
             console.log(err);
             res.send('ko')
@@ -55,7 +60,7 @@ app.post('/add', function (req, res){
     var cust = req.body;
     console.log(cust);
     var custAdd = new customerModel();
-    custAdd.rowId   = req.body.rowId
+    custAdd.sid   = req.body.rowId
     custAdd.fin     = req.body.fin
     custAdd.contract= req.body.contract
     custAdd.serial  = req.body.serial
@@ -72,6 +77,7 @@ app.post('/add', function (req, res){
 app.post('/customer/:id', function(req, res){
     var obj = req.body;
     var id = req.params.id
+    console.log(obj)
     res.header('Access-Control-Allow-Origin','*');
     res.header('Access-Control-Allow-Methods','POST');
     if (obj){
@@ -91,11 +97,25 @@ app.get('/customer/serial/:serial', function (req, res){
             console.log(err)
             res.send(err)
         } else {
-            console.log(cust);
             res.send(cust)
         }
     })
 });
+
+// Delete cust
+app.delete('/customer/delete/:id', function (req, res){
+    var id = req.params.id;
+    if (id) {
+        customerModel.findByIdAndRemove(id,function(err,cust){
+            if (err) {
+                console.log(err);
+                return
+            } else {
+                res.sendStatus(202);
+            }
+        })
+    }
+})
 
 app.listen(1340);
 console.log("===========================================");
