@@ -3,6 +3,8 @@ var mongoose    = require('mongoose');
 var bodyParser  = require('body-parser');
 var cors        = require('cors');
 
+var PORT = process.env.PORT || 1340
+
 var app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
