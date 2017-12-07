@@ -119,7 +119,7 @@ app.delete('/customer/delete/:id', function (req, res){
     }
 })
 
-app.listen(1340);
+app.listen(PORT);
 console.log("===========================================");
-console.log("* Le serveur est lancé sur le port : 1340 *");
+console.log("*           Le serveur est lancé          *");
 console.log("===========================================");
