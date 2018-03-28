@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //CNX mLab
-var promise = mongoose.connect('secret', {
+var promise = mongoose.connect('mongodb://cstg:cstg@ds031975.mlab.com:31975/rico', {
     useMongoClient: true,
 });
 
